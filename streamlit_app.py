@@ -104,7 +104,7 @@ else:  # ✅ This 'else' matches with 'if uploaded_file is not None:'
 
 st.title("Resume Analyzer")
 
-uploaded_file = st.file_uploader("Upload your resume (PDF)", type=["pdf"])
+uploaded_file = st.file_uploader("Upload your resume (PDF)", type=["pdf"], key="resumer_uploader")
 
 if uploaded_file is not None:
     with st.spinner("Analyzing..."):
