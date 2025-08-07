@@ -7,6 +7,7 @@ from pdf_generator import generate_pdf_report
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import requests
 
 
 
@@ -99,3 +100,22 @@ if uploaded_file is not None:
 
 else:  # ✅ This 'else' matches with 'if uploaded_file is not None:'
     st.info("Please upload a PDF resume to start analysis.")
+
+
+st.title("Resume Analyzer")
+
+uploaded_file = st.file_uploader("Upload your resume (PDF)", type=["pdf"])
+
+if uploaded_file is not None:
+    with st.spinner("Analyzing..."):
+        response = requests.post(
+            "https://resume-analyzer-bt0n.onrender.com/upload",
+            files={"file": uploaded_file.getvalue()},
+        )
+
+        if response.status_code == 200:
+            result = response.json()
+            st.success("Analysis Complete!")
+            st.json(result["analysis"])
+        else:
+            st.error("Failed to analyze resume.")
